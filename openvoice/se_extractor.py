@@ -7,17 +7,30 @@ import base64
 from glob import glob
 import numpy as np
 from pydub import AudioSegment
-from faster_whisper import WhisperModel
-import hashlib
-import base64
-import librosa
-from whisper_timestamped.transcribe import get_audio_tensor, get_vad_segments
+
+# Imports opcionais para Whisper (usado apenas se disponível)
+try:
+    from faster_whisper import WhisperModel
+    FASTER_WHISPER_AVAILABLE = True
+except ImportError:
+    FASTER_WHISPER_AVAILABLE = False
+    WhisperModel = None
+
+# Imports do whisper_timestamped
+try:
+    from whisper_timestamped.transcribe import get_audio_tensor, get_vad_segments
+    WHISPER_TIMESTAMPED_AVAILABLE = True
+except ImportError:
+    WHISPER_TIMESTAMPED_AVAILABLE = False
 
 model_size = "medium"
 # Run on GPU with FP16
 model = None
 def split_audio_whisper(audio_path, audio_name, target_dir='processed'):
     global model
+    if not FASTER_WHISPER_AVAILABLE:
+        raise ImportError("faster-whisper não está instalado. Use VAD em vez disso.")
+    
     if model is None:
         model = WhisperModel(model_size, device="cuda", compute_type="float16")
     audio = AudioSegment.from_file(audio_path)
@@ -75,6 +88,9 @@ def split_audio_whisper(audio_path, audio_name, target_dir='processed'):
 
 
 def split_audio_vad(audio_path, audio_name, target_dir, split_seconds=10.0):
+    if not WHISPER_TIMESTAMPED_AVAILABLE:
+        raise ImportError("whisper-timestamped não está instalado.")
+    
     SAMPLE_RATE = 16000
     audio_vad = get_audio_tensor(audio_path)
     segments = get_vad_segments(

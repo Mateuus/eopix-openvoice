@@ -1,13 +1,73 @@
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter Notebooks
 .ipynb_checkpoints/
-processed
-outputs
-outputs_v2
-checkpoints
-checkpoints_v2
-trash
-examples*
-.env
-build
+*.ipynb_checkpoints
+
+# Checkpoints e modelos (não versionar)
+checkpoints/
+checkpoints_v2/
+checkpoints_*.zip
+*.pth
+*.ckpt
+*.pkl
+
+# Outputs e processados
+outputs/
+outputs_v2/
+processed/
+trash/
+
+# Logs
+logs/
+*.log
+
+# Arquivos de áudio gerados
+*.wav
+*.mp3
+*.ogg
+*.flac
+
+# Arquivos temporários
+temp_*
+tmp/
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Build e distribuição
+build/
+dist/
 *.egg-info/
 *.zip
+*.tar.gz
+
+# IDEs
+.idea/
+.vscode/
+*.code-workspace
+
+# Arquivos específicos do projeto
+.env
+.env.local
+.env.*.local
+
+# Arquivos de exemplo grandes
+examples*/
+
+# Outros
+*.bak
+*.cache
+.cache/
